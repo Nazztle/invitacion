@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    width: 320px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+}
+
+.question {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+}
+
+button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.yes {
+    background: black;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.no {
+    background: #eee;
+}
+
+/* MENSAJE FINAL */
+.final-message {
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+/* CORAZONES */
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: float 4s linear infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-700px);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h2>Hey Mi Ratoncita ❤️</h2>
+
+    <div class="question">
+        ¿Quieres ser mi San Valentín?<br>
+        (no acepto "no" por respuesta 😌)
+    </div>
+
+    <div class="buttons">
+        <button class="yes" id="yesBtn">Sí 💖</button>
+        <button class="no" id="noBtn">No</button>
+    </div>
+</div>
+
+<div class="final-message" id="finalMessage">
+    💖 YO SABÍA QUE NO ME DIRÍAS QUE NO 😊😊😘
+</div>
+
+<audio id="music" src="Morning Joe - Patiño.mp3" preload="auto"></audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+const finalMessage = document.getElementById("finalMessage");
+
+let scale = 1;
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("click", moveButton);
+yesBtn.addEventListener("click", showLove);
+
+function moveButton() {
+
+    const maxX = card.clientWidth - noBtn.offsetWidth;
+    const maxY = card.clientHeight - noBtn.offsetHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    scale += 0.2; 
+    yesBtn.style.transform = "scale(" + scale + ")";
+}
+
+function showLove() {
+
+    card.style.display = "none";
+    finalMessage.style.opacity = "1";
+
+    const music = document.getElementById("music");
+    music.volume = 0.4; // volumen suave
+    music.play();
+
+  // Crear corazones continuamente
+    setInterval(() => {
+        createHeart();
+    }, 300); // cada 300ms aparece uno nuevo
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "0px";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+</script>
+
+</body>
+</html>
